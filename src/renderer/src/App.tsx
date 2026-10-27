@@ -1,34 +1,33 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import React, { useState } from 'react'
+import DurationPicker from '../src/components/DurationPicker'
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const [minutes, setMinutes] = useState<number>(25)
+
+  const seconds = minutes * 60
+
+  function formatTime(totalSeconds: number) {
+    const mins = Math.floor(totalSeconds / 60)
+    const secs = totalSeconds % 60
+
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+  }
 
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
+    <div>
+      <div>
+        <DurationPicker value={minutes} onChange={setMinutes} />
       </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC3
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
+
+      <p>{formatTime(seconds)}</p>
+
+      <nav>
+        <ul>
+          <li>Home</li>
+          <li>Settings</li>
+        </ul>
+      </nav>
+    </div>
   )
 }
 
