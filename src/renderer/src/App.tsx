@@ -1,15 +1,53 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DurationPicker from '../src/components/DurationPicker'
 import { formatTime } from './utils/formatTime'
 import ClockDial from './components/ClockDial'
 
 function App(): React.JSX.Element {
   const [minutes, setMinutes] = useState<number>(25)
-  const [endTime, setEndtime] = useState<number | null>(0)
   const [isPaused, setIsPaused] = useState(false)
-  const [remainingMs, setRemainingMs] = useState(0)
+  const [endTime, setEndtime] = useState<number | null>(null)
+  const [remainingSeconds, setRemainingSecond] = useState(0)
+  const [remainingMs, setRemainingMs] = useState<number>(0)
 
   const seconds = minutes * 60
+
+  useEffect(() => {
+    if (endTime === null || isPaused) {
+      return
+    }
+
+    const updateRemaining = () => {
+      const ms = Math.max(0, endTime - Date.now())
+      const second = Math.ceil(ms / 1000)
+      setRemainingSecond(second)
+
+      if (second === 0) {
+        setEndtime(null)
+      }
+    }
+    updateRemaining()
+
+    const intervalMs = 250
+
+    const id = setInterval(updateRemaining, intervalMs)
+
+    const cleanUp = () => {
+      clearInterval(id)
+    }
+
+    return cleanUp
+  }, [endTime, isPaused])
+
+  let displayRemaining: number
+
+  if (isPaused) {
+    displayRemaining = Math.ceil(remainingMs / 1000)
+  } else if (endTime !== null) {
+    displayRemaining = remainingSeconds
+  } else {
+    displayRemaining = seconds
+  }
 
   function handleStart() {
     const duration = isPaused ? remainingMs : minutes * 60 * 1000
@@ -27,11 +65,11 @@ function App(): React.JSX.Element {
     setIsPaused(true)
   }
 
-  function handleReset() {}
-
-  // function handleComplete() {
-  //   setStatus('break') // 'break' needs to be added to the Status type
-  // }
+  function handleReset() {
+    setEndtime(null)
+    setIsPaused(false)
+    setRemainingMs(0)
+  }
 
   return (
     <div>
@@ -45,13 +83,14 @@ function App(): React.JSX.Element {
           </div>
         </div>
         {isPaused && <p>{formatTime(Math.ceil(remainingMs / 1000))}</p>}
-        <button>Resume</button>
+        <button onClick={handleStart}>Resume</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
 
-      <p>{formatTime(seconds)}</p>
+      {formatTime(displayRemaining)}
 
       <div className="test">
-        <ClockDial totalSeconds={60} remainingSeconds={0} />
+        <ClockDial totalSeconds={seconds} remainingSeconds={displayRemaining} />
       </div>
 
       <nav>
