@@ -75,30 +75,34 @@ function App(): React.JSX.Element {
     <div>
       <div>
         <div>
-          {isPaused && <p>{formatTime(Math.ceil(remainingMs / 1000))}</p>}
-          <DurationPicker value={minutes} onChange={setMinutes} />
+          <nav>
+            <ul>
+              <li>Home</li>
+              <li>Settings</li>
+            </ul>
+          </nav>
+        </div>
+
+        <div className="timer">
           <div>
-            <button onClick={handleStart}>Start</button>
-            <button onClick={handlePause}>Pause</button>
+            <ClockDial totalSeconds={seconds} remainingSeconds={displayRemaining} />
+          </div>
+          <div>
+            {isPaused && <p>{formatTime(Math.ceil(remainingMs / 1000))}</p>}
+            <DurationPicker value={minutes} onChange={setMinutes} />
+            <div>
+              <button onClick={handleStart}>Start</button>
+              <button onClick={handlePause}>Pause</button>
+              <button onClick={handleStart}>Resume</button>
+              <button onClick={handleReset}>Reset</button>
+            </div>
           </div>
         </div>
-        {isPaused && <p>{formatTime(Math.ceil(remainingMs / 1000))}</p>}
-        <button onClick={handleStart}>Resume</button>
-        <button onClick={handleReset}>Reset</button>
+
+        <div></div>
       </div>
 
       {formatTime(displayRemaining)}
-
-      <div className="test">
-        <ClockDial totalSeconds={seconds} remainingSeconds={displayRemaining} />
-      </div>
-
-      <nav>
-        <ul>
-          <li>Home</li>
-          <li>Settings</li>
-        </ul>
-      </nav>
     </div>
   )
 }
