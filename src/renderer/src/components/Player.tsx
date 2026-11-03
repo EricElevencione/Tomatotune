@@ -1,4 +1,4 @@
-function Player(): React.JSX.Element {
+export default function Player(): React.JSX.Element {
   return (
     <div>
       <div>Music</div>
@@ -20,5 +20,3 @@ function Player(): React.JSX.Element {
     </div>
   )
 }
-
-export default Player
