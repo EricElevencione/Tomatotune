@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import './db'
 import { importTracks } from './library/import'
+import './ipc'
 
 function createWindow(): void {
   // Create the browser window.
@@ -55,8 +56,6 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()
-
-  importTracks()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
