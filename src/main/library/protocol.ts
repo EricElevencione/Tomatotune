@@ -10,8 +10,7 @@ export function registerTomatuneScheme() {
         standard: true,
         secure: true,
         supportFetchAPI: true,
-        stream: true,
-        corsEnabled: true
+        stream: true
       }
     }
   ])

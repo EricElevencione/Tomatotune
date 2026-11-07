@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DurationPicker from '../src/components/DurationPicker'
 import { formatTime } from './utils/formatTime'
 import ClockDial from './components/ClockDial'
+import Player from './components/Player'
 
 function App(): React.JSX.Element {
   const [minutes, setMinutes] = useState<number>(25)
@@ -103,6 +104,8 @@ function App(): React.JSX.Element {
       </div>
 
       {formatTime(displayRemaining)}
+
+      <Player />
     </div>
   )
 }
