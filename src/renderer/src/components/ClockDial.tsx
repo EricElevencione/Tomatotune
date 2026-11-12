@@ -1,3 +1,5 @@
+import React from 'react'
+
 type ClockDialProps = {
   totalSeconds: number
   remainingSeconds: number
@@ -9,7 +11,10 @@ const CIRCUMFERENCE = 2 * Math.PI * THIN_RADIUS
 const CENTER = 200
 const HAND_LENGTH = 128 // Sits cleanly inside the 130px radius circle
 
-export default function ClockDial({ totalSeconds, remainingSeconds }: ClockDialProps) {
+export default function ClockDial({
+  totalSeconds,
+  remainingSeconds
+}: ClockDialProps): React.JSX.Element {
   const elapsedFraction =
     totalSeconds <= 0 ? 0 : Math.max(0, Math.min(1, 1 - remainingSeconds / totalSeconds))
 
@@ -23,7 +28,7 @@ export default function ClockDial({ totalSeconds, remainingSeconds }: ClockDialP
   const handY = CENTER + HAND_LENGTH * Math.sin(handRad)
 
   return (
-    <div className="relative flex aspect-square w-full max-w-[280px] items-center justify-center">
+    <div className="relative flex aspect-square w-full max-w-70 items-center justify-center">
       <svg viewBox="0 0 400 400" className="h-full w-full drop-shadow-sm select-none">
         <defs>
           <filter id="dialShadow" x="-20%" y="-20%" width="140%" height="140%">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 type MinutesPickerProps = {
   value: number
@@ -13,14 +13,16 @@ export default function DurationPicker({
   value,
   onChange,
   presets = [15, 25, 45, 60]
-}: MinutesPickerProps) {
+}: MinutesPickerProps): React.JSX.Element {
+  const [prevValue, setPrevValue] = useState(value)
   const [text, setText] = useState(String(value))
 
-  useEffect(() => {
+  if (value !== prevValue) {
+    setPrevValue(value)
     setText(String(value))
-  }, [value])
+  }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const raw = e.target.value
     setText(raw)
 
@@ -30,7 +32,7 @@ export default function DurationPicker({
     }
   }
 
-  function handleBlur() {
+  function handleBlur(): void {
     const n = Number(text)
 
     if (text === '' || Number.isNaN(n)) {
