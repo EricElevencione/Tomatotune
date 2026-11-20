@@ -1,6 +1,8 @@
-Static card, in TaskList.tsx.
+Main-side functions, in tasks/tasks.ts.
 
-- Keep the task array in useState, and build all three behaviors against that state only.
-- opens an inline input, Enter adds the task, and Escape cancels.
-- The checkbox flips done. When done is true, give the title a strikethrough and a muted color, and when false, normal text.
-- Clear finished keeps only the tasks where done is false. Disable the button when no task is finished.
+- List: return all tasks in creation order.
+- Add: trim the title, reject empty strings, cap the length, insert, and return the saved row.
+- Toggle: take an id, flip done, and return the updated row.
+- Clear finished: delete every row where done is true.
+- Drizzle with better-sqlite3 is synchronous, so finish each query with .all(), .get(), or .run().
+- Result: the four functions work from a quick test.

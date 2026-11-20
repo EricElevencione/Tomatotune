@@ -11,3 +11,12 @@ export const tracks = sqliteTable('tracks', {
     .notNull()
     .$defaultFn(() => new Date())
 })
+
+export const tasks = sqliteTable('tasks', {
+  id: integer().primaryKey({ autoIncrement: true }).notNull(),
+  title: text().notNull(),
+  done: integer('done', { mode: 'boolean' }).notNull().default(false),
+  added_date: integer({ mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date())
+})

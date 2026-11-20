@@ -20,5 +20,12 @@ sqlite.exec(`CREATE TABLE IF NOT EXISTS tracks (
     added_date INTEGER NOT NULL
 ); `)
 
+sqlite.exec(`CREATE TABLE IF NOT EXISTS tasks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  title TEXT NOT NULL,
+  done INTEGER NOT NULL DEFAULT 0,
+  added_date INTEGER NOT NULL
+);`)
+
 export const db = drizzle(sqlite, { schema })
 export * from './schema'
